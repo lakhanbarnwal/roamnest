@@ -1,0 +1,633 @@
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar {
+    min-height: 5rem;
+    height: auto;
+    background-color: #ffffff !important;
+    padding: 0.5rem 1rem;
+    z-index: 1050;
+}
+
+/* Compass Logo */
+.fa-compass {
+    color: #fe424d;
+    font-size: 2rem;
+}
+
+/* Navbar Links */
+.nav-link {
+    color: #222222 !important;
+    border-bottom: 2px solid transparent !important;
+    margin-right: 1rem !important;
+    opacity: 0.75 !important;
+    font-size: 1.1rem !important;
+    padding: 0.5rem 0 !important;
+    transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+    border-bottom: 2px solid #222222 !important;
+    opacity: 1 !important;
+}
+
+/* Navbar Brand */
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    padding: 0;
+}
+
+/* Bootstrap Toggle Button */
+.navbar-toggler {
+    border: 1px solid #999 !important;
+    padding: 0.45rem 0.65rem;
+    border-radius: 8px;
+    box-shadow: none !important;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none !important;
+}
+
+/* Navbar Collapse */
+.navbar-collapse {
+    background-color: #ffffff;
+}
+
+/* =========================
+   DESKTOP
+========================= */
+
+@media (min-width: 768px) {
+
+    .navbar {
+        min-height: 5rem;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+
+    .navbar-collapse {
+        display: flex;
+        align-items: center;
+    }
+
+    .navbar-nav {
+        align-items: center;
+    }
+
+    .navbar-nav.ms-auto {
+        margin-left: auto !important;
+    }
+
+}
+
+
+/* =========================
+   TABLET + MOBILE
+========================= */
+
+@media (max-width: 767.98px) {
+
+    .navbar {
+        min-height: 4.5rem;
+        height: auto;
+        padding: 0.7rem 1rem;
+    }
+
+    .container-fluid {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    /* Logo */
+    .fa-compass {
+        font-size: 1.8rem;
+    }
+
+    /* Opened mobile menu */
+    .navbar-collapse {
+        width: 100%;
+        padding: 0.8rem 0 0.5rem 0;
+        margin-top: 0.5rem;
+        border-top: 1px solid #eeeeee;
+    }
+
+    .navbar-nav {
+        width: 100%;
+        align-items: flex-start;
+    }
+
+    .navbar-nav .nav-link {
+        width: 100%;
+        margin-right: 0 !important;
+        padding: 0.7rem 0 !important;
+        border-bottom: 1px solid #eeeeee !important;
+        font-size: 1rem !important;
+    }
+
+    .navbar-nav .nav-link:hover {
+        border-bottom: 1px solid #222222 !important;
+    }
+
+    /* Right-side links on mobile */
+    .navbar-nav.ms-auto {
+        margin-left: 0 !important;
+        margin-top: 0.2rem;
+    }
+
+    /* Don't keep a huge gap between menu sections */
+    .navbar-nav + .navbar-nav {
+        margin-top: 0;
+    }
+
+}
+
+
+/* =========================
+   VERY SMALL PHONES
+========================= */
+
+@media (max-width: 480px) {
+
+    .navbar {
+        min-height: 4.2rem;
+        padding: 0.6rem 0.8rem;
+    }
+
+    .fa-compass {
+        font-size: 1.7rem;
+    }
+
+    .navbar-toggler {
+        padding: 0.35rem 0.55rem;
+    }
+
+    .navbar-collapse {
+        padding-top: 0.6rem;
+    }
+
+    .navbar-nav .nav-link {
+        font-size: 0.95rem !important;
+        padding: 0.65rem 0 !important;
+    }
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.f-info-links a {
+    text-decoration: none;
+    color: #222222;
+    margin-right: 2rem;
+}
+
+.f-info-links a:hover {
+    text-decoration: underline;
+}
+
+.f-info-links {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-left: 2rem;
+}
+
+.f-info-social {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+.f-info-copy {
+    display: flex;
+    align-items: center;
+}
+
+.f-info {
+    display: flex;
+    background-color: #ebebeb;
+    min-height: 8rem;
+    height: auto;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 1rem;
+}
+
+.fa-brands {
+    font-size: 1.2rem;
+}
+
+/* cards */
+.row{
+    padding-top:1.5rem !important;
+}
+.card{
+ border: none !important;
+}
+.card img{
+   width: 100%;
+   height: 20rem;
+   border-radius: 0.8rem;
+   object-fit: cover;
+}
+.card-body{
+    padding: 2px !important;
+}
+
+.card:hover{
+    opacity:0.8;
+}
+
+.create-heading{
+    text-align: center;
+    padding-top: 1rem;
+}
+
+.Add-btn{
+    background-color: #fe424d !important;
+    font-size: 1.4rem !important;
+    padding: 15px !important;
+    width: 10rem;
+    text-align: center !important   ;
+    color: black !important;
+    font-weight: 500 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    position: relative !important;
+    left: 40% !important;
+
+}
+.success-btn{
+    background-color: #0ea809  !important;
+    font-size: 1.4rem !important;
+    padding: 15px !important;
+    width: 10rem;
+    text-align: center !important   ;
+    color: black !important;
+    font-weight: 500 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    position: relative !important;
+    left: 40% !important;
+
+}
+
+.price{
+    padding: 2px !important;
+    border:none !important;
+    width: 100%;
+}
+
+.buttons{
+    display: flex;
+    gap: 4rem;
+    margin: 1.3rem 0 !important;
+    flex-wrap: wrap;
+}
+
+#map{
+
+    width: 50vw;
+    height: 25rem;
+    margin-top: 2rem;
+}
+
+.map-text{
+    font-size: 2rem;
+    font-weight: 500;
+    margin-bottom: -1.5rem !important;
+}
+
+.custom-marker {
+    width: 40px;
+    height: 40px;
+    position: relative;
+    cursor: pointer;
+    perspective: 600px;
+}
+
+.marker-front,
+.marker-back {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+
+    backface-visibility: hidden;
+
+    transition: transform 0.5s ease;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Normal marker */
+.marker-front {
+    background: red;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+}
+
+/* Cat side */
+.marker-back {
+    transform: rotateY(180deg);
+}
+
+.marker-back img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+/* Hover/flip */
+.custom-marker.flipped .marker-front {
+    transform: rotate(-45deg) rotateY(180deg);
+}
+
+.custom-marker.flipped .marker-back {
+    transform: rotateY(0deg);
+}
+
+/* =====================================================
+   MOBILE NAVBAR - EXPLORE + SEARCH + HAMBURGER
+===================================================== */
+
+.mobile-nav-content {
+    display: none;
+}
+
+
+/* =====================================================
+   MOBILE ONLY
+===================================================== */
+
+@media (max-width: 767.98px) {
+
+    .navbar {
+        min-height: 4.5rem;
+        padding: 0.7rem 1rem;
+    }
+
+
+    .container-fluid {
+        display: flex;
+        align-items: center;
+        flex-wrap: nowrap;
+        gap: 0.6rem;
+    }
+
+
+    /* -----------------------------
+       LOGO
+    ----------------------------- */
+
+    .navbar-brand {
+        flex: 0 0 auto;
+        margin-right: 0;
+    }
+
+    .fa-compass {
+        font-size: 1.8rem;
+    }
+
+
+    /* -----------------------------
+       MOBILE EXPLORE + SEARCH
+    ----------------------------- */
+
+    .mobile-nav-content {
+
+        display: flex;
+
+        align-items: center;
+
+        flex: 1;
+
+        min-width: 0;
+
+        gap: 0.5rem;
+    }
+
+
+    /* Explore */
+
+    .mobile-explore {
+
+        flex: 0 0 auto;
+
+        color: #222;
+
+        text-decoration: none;
+
+        font-size: 0.95rem;
+
+        white-space: nowrap;
+    }
+
+
+    .mobile-explore:hover {
+        color: #222;
+    }
+
+
+    /* Search */
+
+    .mobile-search {
+
+        display: flex;
+
+        align-items: center;
+
+        flex: 1;
+
+        min-width: 0;
+
+        gap: 0.35rem;
+
+        margin: 0;
+    }
+
+
+    .mobile-search input {
+
+        min-width: 0;
+
+        width: 100%;
+
+        height: 40px;
+
+        padding: 0.4rem 0.6rem;
+
+        font-size: 0.85rem;
+    }
+
+
+    .mobile-search button {
+
+        flex: 0 0 auto;
+
+        height: 40px;
+
+        padding: 0.35rem 0.65rem;
+
+        font-size: 0.8rem;
+
+        white-space: nowrap;
+    }
+
+
+    /* -----------------------------
+       HAMBURGER
+    ----------------------------- */
+
+    .navbar-toggler {
+
+        flex: 0 0 auto;
+
+        padding: 0.35rem 0.55rem;
+
+        border: 1px solid #999 !important;
+
+        border-radius: 8px;
+
+        box-shadow: none !important;
+    }
+
+
+    /* -----------------------------
+       HIDE DESKTOP EXPLORE + SEARCH
+    ----------------------------- */
+
+    .desktop-explore,
+    .desktop-search {
+
+        display: none !important;
+    }
+
+
+    /* -----------------------------
+       COLLAPSED MENU
+    ----------------------------- */
+
+    .navbar-collapse {
+
+        width: 100%;
+
+        padding: 0.8rem 0 0.5rem;
+
+        margin-top: 0.5rem;
+
+        border-top: 1px solid #eeeeee;
+    }
+
+
+    .navbar-collapse .navbar-nav {
+
+        width: 100%;
+
+        align-items: flex-start;
+    }
+
+
+    .navbar-collapse .nav-link {
+
+        width: 100%;
+
+        margin-right: 0 !important;
+
+        padding: 0.7rem 0 !important;
+
+        border-bottom: 1px solid #eeeeee !important;
+
+        font-size: 1rem !important;
+    }
+
+
+    .navbar-collapse .navbar-nav.ms-auto {
+
+        margin-left: 0 !important;
+
+        margin-top: 0.2rem;
+    }
+
+}
+
+
+/* =====================================================
+   VERY SMALL PHONES
+===================================================== */
+
+@media (max-width: 480px) {
+
+    .navbar {
+
+        min-height: 4.2rem;
+
+        padding: 0.6rem 0.7rem;
+    }
+
+
+    .container-fluid {
+
+        gap: 0.4rem;
+    }
+
+
+    .fa-compass {
+
+        font-size: 1.7rem;
+    }
+
+
+    .mobile-nav-content {
+
+        gap: 0.35rem;
+    }
+
+
+    .mobile-explore {
+
+        font-size: 0.85rem;
+    }
+
+
+    .mobile-search {
+
+        gap: 0.25rem;
+    }
+
+
+    .mobile-search input {
+
+        height: 38px;
+
+        font-size: 0.8rem;
+
+        padding: 0.35rem 0.5rem;
+    }
+
+
+    .mobile-search button {
+
+        height: 38px;
+
+        padding: 0.3rem 0.5rem;
+
+        font-size: 0.75rem;
+    }
+
+
+    .navbar-toggler {
+
+        padding: 0.3rem 0.45rem;
+    }
+
+}

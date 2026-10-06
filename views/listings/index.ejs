@@ -1,0 +1,764 @@
+<% layout("/layouts/boilerplate") %>
+
+    <style>
+        /* =====================================================
+       FILTER MAIN AREA
+    ===================================================== */
+
+        .filter-section {
+            width: 100%;
+            margin-top: 1rem;
+            padding: 0 1.5rem;
+
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+
+            overflow: hidden;
+        }
+
+
+        /* =====================================================
+       FILTER SLIDER
+    ===================================================== */
+
+        .filters {
+            flex: 1;
+            min-width: 0;
+
+            display: flex;
+            align-items: flex-start;
+
+            gap: 1rem;
+
+            flex-wrap: nowrap;
+
+            overflow-x: auto;
+            overflow-y: hidden;
+
+            padding: 0.2rem 0.2rem 0.8rem;
+
+            /* Hide scrollbar */
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+
+            /* Smooth mobile scrolling */
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+
+            cursor: grab;
+        }
+
+        .filters:active {
+            cursor: grabbing;
+        }
+
+        .filters::-webkit-scrollbar {
+            display: none;
+        }
+
+
+        /* =====================================================
+       INDIVIDUAL FILTER
+    ===================================================== */
+
+        .filter {
+            flex: 0 0 auto;
+
+            width: 65px;
+
+            text-align: center;
+
+            opacity: 0.75;
+
+            transition: 0.2s ease;
+
+            cursor: pointer;
+
+            user-select: none;
+        }
+
+        .filter:hover {
+            opacity: 1;
+            transform: translateY(-2px);
+        }
+
+
+        /* =====================================================
+       FILTER ICON
+    ===================================================== */
+
+        .filter-icon {
+            width: 50px;
+            height: 50px;
+
+            margin: 0 auto 0.45rem;
+
+            border-radius: 50%;
+
+            background-color: #f0f0f0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            flex-shrink: 0;
+        }
+
+        .filter-icon i {
+            font-size: 1.1rem;
+        }
+
+
+        /* =====================================================
+       FILTER TEXT
+    ===================================================== */
+
+        .filter p {
+            margin: 0;
+
+            font-size: 0.8rem;
+
+            white-space: nowrap;
+
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+
+        /* =====================================================
+       TAX SWITCH
+    ===================================================== */
+
+
+        .tax-switch {
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            min-width: max-content;
+            opacity: 0.85;
+        }
+
+        .tax-switch .form-check {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        /* Tax text */
+        .tax-switch .form-check-label {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #222222;
+            line-height: 1.2;
+            cursor: pointer;
+        }
+
+        /* Switch */
+        .tax-switch .form-check-input {
+            width: 2.5rem;
+            height: 1.35rem;
+
+            margin: 0;
+
+            cursor: pointer;
+
+            flex-shrink: 0;
+        }
+
+
+        /* ==============================
+   MOBILE
+============================== */
+
+        @media (max-width: 767px) {
+
+            .tax-switch {
+                width: 100%;
+                min-width: 0;
+
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+
+                padding: 0.8rem 1rem;
+            }
+
+            .tax-switch .form-check {
+                gap: 0.6rem;
+            }
+
+            .tax-switch .form-check-label {
+                font-size: 1rem;
+                font-weight: 500; 
+                color: #222;
+            }
+
+            .tax-switch .form-check-input {
+                width: 2.6rem;
+                height: 1.4rem;
+            }
+        }
+
+
+        /* ==============================
+   SMALL MOBILE
+============================== */
+
+        @media (max-width: 480px) {
+
+            .tax-switch {
+                padding: 0.75rem 0.8rem;
+            }
+
+            .tax-switch .form-check-label {
+                font-size: 0.95rem;
+                font-weight: 500;
+            }
+
+            .tax-switch .form-check-input {
+                width: 2.5rem;
+                height: 1.35rem;
+            }
+        }
+
+        /* =====================================================
+       MOBILE
+    ===================================================== */
+
+        @media (max-width: 767px) {
+
+            /*
+         * IMPORTANT:
+         * Desktop row becomes vertical on mobile.
+         */
+
+            .filter-section {
+
+                display: block;
+
+                width: 100%;
+
+                padding: 0;
+
+                margin-top: 0.8rem;
+
+                overflow: hidden;
+            }
+
+
+            /* ================================
+           MOBILE FILTER SLIDER
+        ================================= */
+
+            .filters {
+
+                width: 100%;
+
+                display: flex;
+
+                flex-wrap: nowrap;
+
+                gap: 1.5rem;
+
+                overflow-x: auto;
+                overflow-y: hidden;
+
+                padding: 0.5rem 1rem 0.8rem;
+
+                /*
+             * This is important.
+             * It prevents filters from shrinking.
+             */
+                min-width: 0;
+
+                /*
+             * Makes horizontal swipe obvious
+             */
+                scroll-snap-type: x proximity;
+
+                -webkit-overflow-scrolling: touch;
+
+                scrollbar-width: none;
+            }
+
+            .filters::-webkit-scrollbar {
+                display: none;
+            }
+
+
+            /* ================================
+           FILTER ITEM
+        ================================= */
+
+            .filter {
+
+                flex: 0 0 65px;
+
+                width: 65px;
+
+                scroll-snap-align: start;
+            }
+
+
+            /* ================================
+           ICON
+        ================================= */
+
+            .filter-icon {
+
+                width: 50px;
+                height: 50px;
+
+                margin-bottom: 0.4rem;
+            }
+
+
+            /* ================================
+           TEXT
+        ================================= */
+
+            .filter p {
+
+                font-size: 0.75rem;
+
+                white-space: nowrap;
+
+                overflow: visible;
+
+                text-overflow: clip;
+            }
+
+
+            /* ================================
+           TAX SWITCH
+        ================================= */
+
+            .tax-switch {
+
+                width: 100%;
+
+                min-width: 0;
+
+                height: auto;
+
+                display: flex;
+                /* border: 2px solid black !important; */
+                border-radius: 0.2rem;
+
+                justify-content: flex-end;
+
+                align-items: center;
+
+                padding:
+
+                    0.6rem 1rem 0.7rem;
+
+                box-sizing: border-box;
+
+                border-top: 1px solid #f1f1f1;
+            }
+
+            
+
+            .tax-switch .form-check-label {
+
+                font-size: 0.85rem;
+
+                white-space: nowrap;
+            }
+
+
+            /* ================================
+           LISTINGS
+        ================================= */
+
+            .listings-container {
+
+                margin-top: 0.8rem;
+
+                padding: 0 0.7rem;
+            }
+
+            .listing-card img {
+
+                height: 220px;
+            }
+        }
+
+
+        /* =====================================================
+       SMALL MOBILE
+    ===================================================== */
+
+        @media (max-width: 480px) {
+
+            .filters {
+
+                gap: 1.25rem;
+
+                padding-left: 0.9rem;
+                padding-right: 0.9rem;
+            }
+
+            .filter {
+
+                flex: 0 0 62px;
+
+                width: 62px;
+            }
+
+            .filter-icon {
+
+                width: 48px;
+                height: 48px;
+            }
+
+            .filter-icon i {
+
+                font-size: 1rem;
+            }
+
+            .filter p {
+
+                font-size: 0.7rem;
+            }
+
+            .tax-switch {
+
+                padding-left: 0.8rem;
+                padding-right: 0.8rem;
+               
+                
+            }
+          
+
+            .tax-switch .form-check-label {
+
+                font-size: 0.8rem;
+            }
+
+            .listings-container {
+
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+            }
+
+            .listing-card img {
+
+                height: 200px;
+            }
+        }
+        .tax-switch .form-check {
+
+                padding-left: 2.5em;
+                border: 2px solid black !important;
+                padding: 1rem 1.5rem !important;
+                border-radius: 2.5rem !important;
+            }
+    </style>
+
+
+    <!-- =====================================================
+     FILTER SECTION
+===================================================== -->
+
+    <div class="filter-section">
+
+
+        <!-- =================================================
+         HORIZONTAL FILTER SLIDER
+    ================================================== -->
+
+        <div class="filters" id="filters">
+
+
+            <!-- Trending -->
+
+            <div class="filter">
+
+                <div class="filter-icon">
+
+                    <i class="fa-solid fa-fire"></i>
+
+                </div>
+
+                <p>Trending</p>
+
+            </div>
+
+
+            <!-- Rooms -->
+
+            <div class="filter">
+
+                <div class="filter-icon">
+
+                    <i class="fa-solid fa-bed"></i>
+
+                </div>
+
+                <p>Rooms</p>
+
+            </div>
+
+
+            <!-- Iconic Cities -->
+
+            <div class="filter">
+
+                <div class="filter-icon">
+
+                    <i class="fa-solid fa-mountain-city"></i>
+
+                </div>
+
+                <p>Iconic Cities</p>
+
+            </div>
+
+
+            <!-- Mountains -->
+
+            <div class="filter">
+
+                <div class="filter-icon">
+
+                    <i class="fa-solid fa-mountain"></i>
+
+                </div>
+
+                <p>Mountains</p>
+
+            </div>
+
+
+            <!-- Castle -->
+
+            <div class="filter">
+
+                <div class="filter-icon">
+
+                    <i class="fa-brands fa-fort-awesome"></i>
+
+                </div>
+
+                <p>Castle</p>
+
+            </div>
+
+
+            <!-- Pools -->
+
+            <div class="filter">
+
+                <div class="filter-icon">
+
+                    <i class="fa-solid fa-person-swimming"></i>
+
+                </div>
+
+                <p>Pools</p>
+
+            </div>
+
+
+            <!-- Camping -->
+
+            <div class="filter">
+
+                <div class="filter-icon">
+
+                    <i class="fa-solid fa-campground"></i>
+
+                </div>
+
+                <p>Camping</p>
+
+            </div>
+
+
+            <!-- Farms -->
+
+            <div class="filter">
+
+                <div class="filter-icon">
+
+                    <i class="fa-solid fa-cow"></i>
+
+                </div>
+
+                <p>Farms</p>
+
+            </div>
+
+
+            <!-- Arctic -->
+
+            <div class="filter">
+
+                <div class="filter-icon">
+
+                    <i class="fa-solid fa-snowflake"></i>
+
+                </div>
+
+                <p>Arctic</p>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =================================================
+         TAX SWITCH
+    ================================================== -->
+
+        <div class="tax-switch">
+
+            <div class="form-check form-switch">
+
+                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                    Default Total After Taxes
+                </label>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =====================================================
+     LISTINGS
+===================================================== -->
+
+    <div class="container listings-container">
+
+        <div class="row">
+
+            <% for (let list of allListings) { %>
+
+                <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-4">
+
+                    <a href="/listings/<%= list._id %>" class="text-decoration-none text-dark">
+
+                        <div class="card h-100 shadow-sm listing-card">
+
+                            <img src="<%= list.image.url %>" class="card-img-top" alt="listing image">
+
+                            <div class="card-body">
+
+                                <h5 class="card-title">
+
+                                    <%= list.title %>
+
+                                </h5>
+
+                                <p class="card-text">
+
+                                    <b>
+
+                                        ₹<%= list.price ? list.price.toLocaleString("en-IN") : 0 %>
+
+                                    </b>
+
+                                    /night
+
+                                    <i class="tax-info">
+
+                                        &nbsp;&nbsp;&nbsp;+18% GST
+
+                                    </i>
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
+                <% } %>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+    <script>
+
+        const taxSwitch =
+            document.getElementById("flexSwitchCheckDefault");
+
+
+        taxSwitch.addEventListener("change", function () {
+
+            const taxInfo =
+                document.getElementsByClassName("tax-info");
+
+
+            for (let info of taxInfo) {
+
+                if (this.checked) {
+
+                    info.style.display = "inline";
+
+                } else {
+
+                    info.style.display = "none";
+
+                }
+
+            }
+
+        });
+
+
+        /* =================================================
+           MOBILE FILTER MOUSE WHEEL SUPPORT
+        ================================================== */
+
+        const filters =
+            document.getElementById("filters");
+
+
+        filters.addEventListener(
+            "wheel",
+            function (event) {
+
+                /*
+                 * On desktop/laptop:
+                 * mouse wheel can move the filter slider
+                 */
+
+                if (window.innerWidth <= 767) {
+
+                    if (event.deltaY !== 0) {
+
+                        event.preventDefault();
+
+                        filters.scrollLeft += event.deltaY;
+
+                    }
+
+                }
+
+            },
+            { passive: false }
+        );
+
+
+    </script>

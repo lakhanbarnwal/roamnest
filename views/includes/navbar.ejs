@@ -1,0 +1,133 @@
+<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
+    <div class="container-fluid">
+
+        <!-- Logo -->
+        <a class="navbar-brand" href="/listings">
+            <i class="fa-solid fa-compass"></i>
+        </a>
+
+
+        <!-- Mobile Explore + Search -->
+        <div class="mobile-nav-content">
+
+            <a class="mobile-explore" href="/listings">
+                <b>Explore</b>
+            </a>
+
+            <form role="search" class="mobile-search">
+                <input
+                    type="search"
+                    class="form-control"
+                    placeholder="Eg: New York, NY"
+                    aria-label="Search"
+                >
+
+                <button
+                    class="btn btn-outline-success"
+                    type="submit"
+                >
+                    Search Your Home
+                </button>
+            </form>
+
+        </div>
+
+
+        <!-- Hamburger -->
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        <!-- Desktop + Hamburger Menu -->
+        <div
+            class="collapse navbar-collapse"
+            id="navbarNavAltMarkup"
+        >
+
+            <!-- Desktop Explore -->
+            <div class="navbar-nav desktop-explore">
+
+                <a class="nav-link" href="/listings">
+                    <b>Explore</b>
+                </a>
+
+            </div>
+
+
+            <!-- Desktop Search -->
+            <div class="navbar-nav desktop-search">
+
+                <form role="search" class="d-flex">
+
+                    <input
+                        type="search"
+                        class="form-control me-2"
+                        placeholder="Search"
+                        aria-label="Search"
+                    >
+
+                    <button
+                        class="btn btn-outline-success"
+                        type="submit"
+                    >
+                        Search your Home
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- Right Side -->
+            <div class="navbar-nav ms-auto">
+
+                <a
+                    class="nav-link"
+                    href="/listings/create"
+                >
+                    <b>Airbnb Your Home :)</b>
+                </a>
+
+
+                <% if (!currUser) { %>
+
+                    <a
+                        class="nav-link"
+                        href="/signup"
+                    >
+                        <b>Sign-Up</b>
+                    </a>
+
+                    <a
+                        class="nav-link"
+                        href="/login"
+                    >
+                        <b>Log-in</b>
+                    </a>
+
+                <% } else { %>
+
+                    <a
+                        class="nav-link"
+                        href="/logout"
+                    >
+                        <b>Log out</b>
+                    </a>
+
+                <% } %>
+
+            </div>
+
+        </div>
+
+    </div>
+</nav>
