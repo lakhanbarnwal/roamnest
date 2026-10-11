@@ -365,32 +365,61 @@ app.post("/api/ai/chat", async (req, res) => {
       config: {
         systemInstruction: `
 You are RoamNest's property search assistant.
-Extract search filters from the user's question.
-Return JSON only with:
-city: string or null,
-country: string or null,
-maxPrice: number or null.
 
-Use null for unspecified filters.
-If the user asks about properties in a place,
-put the place in city unless a country is explicit.
-Never invent hotel counts or property details.
+Classify the user's message into one of these intents:
+- "greeting": hello, hi, how are you, thanks, goodbye, or casual conversation.
+- "search": the user wants to find or filter properties.
+- "other": unrelated questions or unclear requests.
+
+Extract search filters only when intent is "search".
+
+Return JSON only:
+{
+  "intent": "greeting" | "search" | "other",
+  "reply": string,
+  "city": string | null,
+  "country": string | null,
+  "maxPrice": number | null
+}
+
+For greetings, reply politely and ask how you can help find a stay.
+For unrelated questions, explain that you help search RoamNest listings.
+Never classify a greeting as a search.
+Never invent property details.
 `,
         responseMimeType: "application/json",
-        responseSchema: {
-          type: "OBJECT",
-          properties: {
-            city: { type: ["STRING", "NULL"] },
-            country: { type: ["STRING", "NULL"] },
-            maxPrice: { type: ["NUMBER", "NULL"] },
-          },
-          required: ["city", "country", "maxPrice"],
-        },
+       responseSchema: {
+  type: "OBJECT",
+  properties: {
+    intent: {
+      type: "STRING",
+      enum: ["greeting", "search", "other"],
+    },
+    reply: { type: "STRING" },
+    city: { type: ["STRING", "NULL"] },
+    country: { type: ["STRING", "NULL"] },
+    maxPrice: { type: ["NUMBER", "NULL"] },
+  },
+  required: [
+    "intent",
+    "reply",
+    "city",
+    "country",
+    "maxPrice",
+  ],
+},
       },
     });
 
     const filters = JSON.parse(result.text);
-    console.log("AI filters:", filters);
+    if (filters.intent !== "search") {
+  return res.json({
+    success: true,
+    answer: filters.reply,
+    totalRegisteredListings: 0,
+    listings: [],
+  });
+}
 
     const escapeRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
@@ -416,7 +445,16 @@ Never invent hotel counts or property details.
     ) {
       query.price = { $lte: filters.maxPrice };
     }
+    if (Object.keys(query).length === 0) {
+  return res.json({
+    success: true,
+    answer: "Please specify a location or maximum budget to search for stays.",
+    totalRegisteredListings: 0,
+    listings: [],
+  });
+}
     const [count, listings] = await Promise.all([
+      
       Listing.countDocuments(query),
       Listing.find(query)
         .select("title price location country image")

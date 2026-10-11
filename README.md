@@ -1,967 +1,409 @@
 # 🏡 RoamNest
 
-> **A full-stack travel and property listing platform for discovering, listing, reviewing, and managing unique stays.**
+**Discover. Explore. Stay.**
 
-RoamNest is a full-stack web application inspired by modern vacation rental and property discovery platforms. It allows users to explore properties, create and manage listings, upload images to the cloud, view property locations on interactive maps, submit reviews and ratings, and securely authenticate using session-based authentication.
+RoamNest is a full-stack Property discovery and listing platform where
+users can explore stays, create and manage property listings, upload
+images to cloud storage, view property locations on interactive maps,
+and share reviews. It also includes an **AI-powered chatbot** that helps
+users search registered listings using natural-language requests.
 
-The application is built using **Node.js, Express.js, MongoDB, Mongoose, EJS, Cloudinary, Mapbox, Passport.js, Bootstrap, and JavaScript**.
+## 🌐 Project Links
 
----
+-   **Live Demo:** https://roamnest-1-wnl4.onrender.com
+-   **GitHub Repository:** https://github.com/lakhanbarnwal/roamnest
 
-## 🌐 Live Project
 
-**Live Demo:** Coming Soon
+## ✨ Features
 
-**GitHub Repository:**  
-https://github.com/lakhanbarnwal/roamnest
+### 🤖 AI-Powered Hotel Search Chatbot
 
----
+RoamNest includes a floating AI chatbot powered by the Google Gemini
+API.
 
-# ✨ Features
+-   Search registered properties using natural-language prompts.
+-   Extract search criteria such as location, country, and maximum
+    price.
+-   Return results from the application's MongoDB listings rather than
+    inventing property records.
+-   Display matching property titles, locations, prices, and
+    cloud-hosted images.
+-   Open a property detail page directly from a result.
+-   Handle greetings and non-search messages separately from listing
+    searches.
+-   Preserve chat history for the current browser tab using
+    `sessionStorage`.
 
-## 🏠 Property Listing Management
+**Example prompts** - `Show listings in India` -
+`Find stays under ₹1000` - `Show all listings` -
+`Find properties in Ranchi`
 
-RoamNest provides complete CRUD functionality for property listings.
+Search results depend on the data saved in the database and the accuracy
+of the location and country values in each listing. AI responses also
+depend on Gemini API and model availability.
 
-- Create new property listings
-- Browse all available listings
-- View complete property details
-- Edit existing listings
-- Delete listings
-- Upload property images
-- Display price per night
-- Store property location
-- Store country information
-- Associate listings with their owners
-- Responsive property cards
-- Indian currency formatting
+### 🏠 Property Listing Management
 
----
+-   Create, read, update, and delete property listings (CRUD).
+-   View individual property details.
+-   Store title, description, price, location, country, image, owner,
+    reviews, and geographic coordinates.
+-   Associate each listing with its owner.
+-   Display listing cards and property details.
+-   Format prices in Indian rupees.
 
-## 🔎 Search & Property Discovery
+### 🔎 Property Discovery & Categories
 
-Users can easily explore different types of properties through the discovery interface.
+The discovery interface includes categories such as:
 
-Available categories include:
+-   Trending
+-   Rooms
+-   Iconic Cities
+-   Mountains
+-   Castles
+-   Pools
+-   Camping
+-   Farms
+-   Arctic
 
-- 🔥 Trending
-- 🛏️ Rooms
-- 🌆 Iconic Cities
-- ⛰️ Mountains
-- 🏰 Castles
-- 🏊 Pools
-- ⛺ Camping
-- 🐄 Farms
-- ❄️ Arctic
+The category navigation is designed to work across desktop and mobile
+screen sizes.
 
-The category navigation is responsive and optimized for both desktop and mobile devices.
+### 🔍 Search and Filters
 
----
+-   Discover properties through the listing interface.
+-   Use the AI chatbot to search by supported criteria such as location,
+    country, and maximum price.
+-   View matching records from the registered listings database.
 
-# 💰 Tax Display
+### ☁️ Cloud Image Uploads with Cloudinary
 
-RoamNest includes a tax-display feature that allows users to view additional GST information with property prices.
+Property images are uploaded to Cloudinary instead of being stored as
+image files on the application server.
 
-Example:
+-   Upload images through listing forms.
+-   Store Cloudinary image URLs and public identifiers in MongoDB.
+-   Display cloud-hosted images on listing pages and chatbot results.
+-   Update listing images when editing a property.
 
-```text
-₹5,000 / night
-```
+**Image upload flow**
 
-With tax information enabled:
-
-```text
-₹5,000 / night + 18% GST
-```
-
-The tax information can be toggled directly from the user interface.
-
----
-
-# 🔐 Authentication
-
-RoamNest implements secure user authentication using **Passport.js**.
-
-Users can:
-
-- Create a new account
-- Login using username/password
-- Logout securely
-- Maintain login state using sessions
-- Access protected routes only after authentication
-
-Authentication is handled using:
-
-- Passport.js
-- Passport Local Strategy
-- Express Session
-- MongoDB
-- Cookies
-
----
-
-# 🛡️ Authorization
-
-Authentication determines **who the user is**, while authorization determines **what the user is allowed to do**.
-
-RoamNest implements authorization middleware to protect resources.
-
-For example:
-
-- Only authenticated users can create listings
-- Only listing owners can edit their listings
-- Only listing owners can delete their listings
-- Only authorized users can perform protected actions
-- Review operations are protected
-- Unauthorized users cannot modify resources belonging to other users
-
-Example authorization flow:
-
-```text
-User Request
-      ↓
-Authentication Check
-      ↓
-Authorization Check
-      ↓
-Validation
-      ↓
-Controller / Route Logic
-      ↓
-Database Operation
-      ↓
-Response
-```
-
----
-
-# 🍪 Sessions & Cookies
-
-RoamNest uses **server-side sessions** to maintain user authentication.
-
-When a user logs in:
-
-```text
-User Login
-    ↓
-Credentials Verified
-    ↓
-Session Created
-    ↓
-Session ID Stored in Cookie
-    ↓
-Browser Sends Cookie With Requests
-    ↓
-Server Identifies Logged-In User
-```
-
-Session features include:
-
-- Persistent login sessions
-- Session cookies
-- Session-based authentication
-- Secure session secret
-- MongoDB-backed session storage
-- Authentication state persistence
-- Flash message support
-
-Sensitive session configuration is stored using environment variables.
-
----
-
-# 🗄️ MongoDB Session Store
-
-Instead of relying only on the default in-memory session store, RoamNest can store sessions inside MongoDB.
-
-This provides:
-
-- Persistent sessions
-- Better production reliability
-- Session persistence after server restart
-- Centralized session management
-
----
-
-# ☁️ Cloud Image Upload
-
-RoamNest uses **Cloudinary** for cloud-based property image management.
-
-Users can upload property images without storing them permanently on the application server.
-
-### Image Features
-
-- Upload images from listing forms
-- Store images on Cloudinary
-- Save Cloudinary URLs in MongoDB
-- Store image filenames/public identifiers
-- Display cloud-hosted images
-- Update listing images
-- Manage images independently from application storage
-
-Architecture:
-
-```text
-User Uploads Image
+``` text
+User selects an image
         ↓
-      Multer
+Multipart form submission
         ↓
-Cloudinary Storage
+Multer + Cloudinary storage
         ↓
-Cloudinary URL
+Cloudinary returns image URL and public ID
         ↓
-     MongoDB
+Image metadata is saved in MongoDB
         ↓
-Displayed on Website
+RoamNest displays the cloud-hosted image
 ```
 
----
+### 🗺️ Interactive Maps with Mapbox
 
-# 🗺️ Mapbox Integration
+-   Convert listing locations into geographic coordinates using Mapbox
+    geocoding.
+-   Store geographic data with the listing.
+-   Display property locations on interactive maps.
+-   Show map markers associated with listings.
 
-RoamNest integrates **Mapbox** to display property locations on an interactive map.
+Map accuracy depends on the location supplied and the geocoding result.
 
-Map functionality includes:
+### 🔐 Authentication with Passport.js
 
-- Interactive maps
-- Property location visualization
-- Map markers
-- Listing-specific locations
-- Marker interaction
-- Location-based property visualization
-- Responsive map interface
+RoamNest uses Passport.js with a local username/password strategy.
 
-Basic architecture:
+-   User registration.
+-   Login and logout.
+-   Password-based authentication.
+-   Session-based login state.
+-   Protected routes for authenticated users.
 
-```text
-Listing Location
-       ↓
-Geographic Data
-       ↓
-Mapbox
-       ↓
-Coordinates
-       ↓
-Interactive Map
-       ↓
-Property Marker
+### 🛡️ Authorization and Ownership Checks
+
+Authentication verifies **who the user is**; authorization determines
+**what the user is allowed to do**.
+
+Authorization middleware is used to protect listing and review actions.
+
+-   Require login for protected operations.
+-   Restrict listing edits and deletion to the listing owner.
+-   Protect review operations and review ownership where applicable.
+-   Prevent users from modifying resources they do not own.
+
+### 🍪 Sessions, Cookies, and MongoDB Session Store
+
+-   Express Session manages login sessions.
+-   Connect Mongo stores session data in MongoDB.
+-   Cookies maintain the session identifier between requests.
+-   Flash messages provide feedback after actions.
+-   Session configuration uses environment variables for secrets.
+
+### ⭐ Reviews and Ratings
+
+-   Add reviews to listings.
+-   Associate reviews with their authors and listings.
+-   Display submitted reviews and ratings.
+-   Delete reviews through protected routes.
+
+### 💰 Tax Display
+
+-   Toggle additional tax information in the listing interface.
+-   Show the displayed price with tax information when enabled.
+
+The interface may display an example such as an additional 18% GST;
+confirm applicable tax rules before treating displayed tax information
+as a final payable amount.
+
+### ✅ Validation and Error Handling
+
+-   Client-side form validation.
+-   Joi validation where configured.
+-   Mongoose schema validation.
+-   Express middleware for request processing.
+-   Async error-handling utilities.
+-   Centralized Express error handling.
+-   Flash messages for success and error feedback.
+
+### 📱 Responsive User Interface
+
+-   Responsive navigation and mobile menu.
+-   Property cards and listing grids.
+-   Responsive forms and authentication pages.
+-   Category navigation and filters.
+-   Property detail pages and maps.
+-   Floating AI chatbot interface.
+
+## 🧰 Technology Stack
+
+  -----------------------------------------------------------------------
+  Area                                Technologies
+  ----------------------------------- -----------------------------------
+  Frontend                            HTML5, CSS3, JavaScript, Bootstrap,
+                                      EJS
+
+  Backend                             Node.js, Express.js
+
+  Database                            MongoDB Atlas, MongoDB, Mongoose
+
+  Authentication                      Passport.js, Passport Local,
+                                      Passport Local Mongoose
+
+  Sessions                            Express Session, Connect Mongo,
+                                      cookies
+
+  Image storage                       Cloudinary, Multer, Multer Storage
+                                      Cloudinary
+
+  Maps and geocoding                  Mapbox
+
+  AI chatbot                          Google Gemini API, `@google/genai`
+
+  Validation                          Joi, Mongoose validation,
+                                      client-side validation
+
+  Hosting                             Render
+
+  Development tools                   npm, Git, GitHub, VS Code, Nodemon
+  -----------------------------------------------------------------------
+
+## 🏗️ Architecture Overview
+
+``` text
+Browser (EJS, CSS, JavaScript)
+             |
+             v
+       Express.js App
+             |
+      Middleware Layer
+  Authentication / Authorization
+   Validation / Error Handling
+             |
+      Application Routes
+       /      |       \
+      v       v        v
+  MongoDB  Cloudinary  Gemini API
+  Listings  Images     AI filters
+      |
+      v
+  Mapbox Geocoding
+  (coordinates for listings)
+
+Express renders pages and returns API results to the browser.
 ```
 
----
+## ⚙️ Getting Started
 
-# ⭐ Reviews & Ratings
+### Prerequisites
 
-Users can share their experiences through the review and rating system.
+Install or configure:
 
-Features include:
+-   Node.js and npm
+-   A MongoDB Atlas database
+-   A Cloudinary account
+-   A Mapbox access token
+-   A Google AI Studio / Gemini API key
 
-- Add reviews
-- Submit ratings
-- Display reviews
-- Display rating information
-- Associate reviews with listings
-- Associate reviews with users
-- Delete authorized reviews
-- Protect review routes
+### 1. Clone the repository
 
-Relationship:
-
-```text
-User
- │
- └──── writes ────→ Review
-                       │
-                       ↓
-                    Listing
-```
-
----
-
-# 🔗 Database Relationships
-
-RoamNest uses MongoDB and Mongoose relationships between different models.
-
-```text
-                 USER
-                /    \
-               /      \
-            owns      writes
-             ↓          ↓
-         LISTINGS    REVIEWS
-             │          │
-             └──────────┘
-                  ↓
-            Property Data
-```
-
-The major models are:
-
-### User Model
-
-Stores information related to registered users and authentication.
-
-### Listing Model
-
-Stores:
-
-- Title
-- Description
-- Price
-- Location
-- Country
-- Image
-- Owner
-- Reviews
-- Geographic information
-
-### Review Model
-
-Stores:
-
-- Rating
-- Comment
-- Author
-- Listing relationship
-
----
-
-# ⚡ Form Validation
-
-RoamNest implements both client-side and server-side validation.
-
-Validation helps prevent invalid or incomplete information from being stored in the database.
-
-The application uses:
-
-- Joi validation
-- Mongoose schema validation
-- Bootstrap form validation
-- Client-side JavaScript validation
-- Express middleware
-
-Validation flow:
-
-```text
-User Input
-    ↓
-Client-Side Validation
-    ↓
-Server Request
-    ↓
-Joi Validation
-    ↓
-Mongoose Validation
-    ↓
-MongoDB
-```
-
----
-
-# 🚨 Error Handling
-
-The application includes centralized error handling.
-
-Features include:
-
-- Custom Express errors
-- Async error handling
-- Centralized error middleware
-- User-friendly error pages
-- Invalid route handling
-- Database error handling
-- Validation error handling
-
-The project includes utility functions such as:
-
-```text
-utils/
-├── ExpressError.js
-└── wrapAsync.js
-```
-
-Error flow:
-
-```text
-Request
-   ↓
-Route Handler
-   ↓
-wrapAsync()
-   ↓
-Error Detected
-   ↓
-Express Error Middleware
-   ↓
-Custom Error Page
-```
-
----
-
-# 🔔 Flash Messages
-
-RoamNest provides user feedback through flash messages.
-
-Flash messages can notify users about:
-
-- Successful login
-- Successful logout
-- Account registration
-- Listing creation
-- Listing updates
-- Listing deletion
-- Review creation
-- Review deletion
-- Authentication errors
-- Authorization errors
-- Validation errors
-
-Example:
-
-```text
-Listing created successfully!
-```
-
----
-
-# 📱 Responsive Design
-
-RoamNest provides a responsive user interface optimized for different screen sizes.
-
-Supported layouts include:
-
-- 🖥️ Desktop
-- 💻 Laptop
-- 📱 Tablet
-- 📲 Mobile
-
-Responsive features include:
-
-- Responsive navbar
-- Mobile hamburger menu
-- Responsive listing cards
-- Mobile-friendly property grid
-- Horizontal category slider
-- Responsive forms
-- Responsive authentication pages
-- Responsive maps
-- Mobile-friendly filters
-
----
-
-# 🧭 Navigation
-
-The application includes a responsive navigation system.
-
-Navigation functionality includes:
-
-- Explore listings
-- Search
-- Create new listings
-- Login
-- Sign Up
-- Logout
-- Responsive hamburger navigation
-- User-specific navigation controls
-
----
-
-# 🛡️ Security
-
-RoamNest follows multiple security practices.
-
-Security features include:
-
-- Environment variables for sensitive information
-- Password-based authentication
-- Session authentication
-- Authentication middleware
-- Authorization middleware
-- Protected routes
-- Server-side validation
-- Database validation
-- Secure cookies/session configuration
-- Sensitive credentials excluded from Git
-- Ownership verification
-
-Sensitive information is stored inside `.env` rather than directly inside source code.
-
----
-
-# 🔑 Environment Variables
-
-Create a `.env` file inside the root directory.
-
-Example:
-
-```env
-ATLASDB_URL=your_mongodb_connection_string
-
-SECRET=your_session_secret
-
-CLOUD_NAME=your_cloudinary_cloud_name
-CLOUD_API_KEY=your_cloudinary_api_key
-CLOUD_API_SECRET=your_cloudinary_api_secret
-
-MAP_TOKEN=your_mapbox_access_token
-```
-
-> ⚠️ **Never commit your actual `.env` file to GitHub.**
-
-Add it to `.gitignore`:
-
-```gitignore
-.env
-node_modules/
-```
-
----
-
-# 🧰 Tech Stack
-
-## Frontend
-
-- HTML5
-- CSS3
-- JavaScript
-- Bootstrap
-- EJS
-- Font Awesome
-
-## Backend
-
-- Node.js
-- Express.js
-
-## Database
-
-- MongoDB
-- MongoDB Atlas
-- Mongoose
-
-## Authentication & Sessions
-
-- Passport.js
-- Passport Local
-- Passport Local Mongoose
-- Express Session
-- Connect Mongo / MongoDB Session Store
-- Cookies
-
-## Cloud & External Services
-
-- Cloudinary
-- Mapbox
-
-## Validation
-
-- Joi
-- Mongoose Validation
-- Client-Side Validation
-
-## Development Tools
-
-- VS Code
-- Git
-- GitHub
-- npm
-- Nodemon
-
----
-
-# 🏗️ Project Structure
-
-```text
-RoamNest/
-│
-├── app.js
-├── cloudConfig.js
-├── middleware.js
-├── schema.js
-│
-├── models/
-│   ├── listing.js
-│   ├── review.js
-│   └── user.js
-│
-├── public/
-│   ├── css/
-│   │   ├── style.css
-│   │   └── starability-all.min.css
-│   │
-│   └── js/
-│       ├── form_validation.js
-│       └── map.js
-│
-├── views/
-│   ├── layouts/
-│   │   └── boilerplate.ejs
-│   │
-│   ├── includes/
-│   │   ├── navbar.ejs
-│   │   ├── footer.ejs
-│   │   └── flash.ejs
-│   │
-│   ├── listings/
-│   │   ├── index.ejs
-│   │   ├── show.ejs
-│   │   ├── new_form.ejs
-│   │   └── edit_form.ejs
-│   │
-│   └── user/
-│       ├── login.ejs
-│       └── signUp.ejs
-│
-├── utils/
-│   ├── ExpressError.js
-│   └── wrapAsync.js
-│
-├── init/
-│   ├── data.js
-│   └── index.js
-│
-├── .env
-├── .gitignore
-├── package.json
-├── package-lock.json
-└── README.md
-```
-
----
-
-# 🔄 CRUD Operations
-
-RoamNest implements complete CRUD operations.
-
-```text
-CREATE
-   ↓
-Create a new property listing
-
-READ
-   ↓
-Browse and view property listings
-
-UPDATE
-   ↓
-Edit an existing property listing
-
-DELETE
-   ↓
-Remove a property listing
-```
-
-Authorization is applied to update and delete operations so that only the appropriate owner can modify their property.
-
----
-
-# ⚙️ Middleware
-
-RoamNest uses Express middleware extensively.
-
-Middleware is responsible for:
-
-- Authentication
-- Authorization
-- Listing ownership verification
-- Review authorization
-- Request validation
-- Session management
-- Flash messages
-- Static file handling
-- Form parsing
-- Method overriding
-- Error handling
-- Async error handling
-
-This keeps route logic cleaner and improves code reusability.
-
----
-
-# 🌐 MVC-Style Architecture
-
-RoamNest follows an MVC-style project structure.
-
-```text
-             USER REQUEST
-                  │
-                  ↓
-               ROUTES
-                  │
-                  ↓
-             MIDDLEWARE
-                  │
-                  ↓
-          APPLICATION LOGIC
-                  │
-          ┌───────┴───────┐
-          ↓               ↓
-       MODELS           VIEWS
-          ↓               ↓
-       MongoDB            EJS
-```
-
-This separation improves:
-
-- Maintainability
-- Scalability
-- Code organization
-- Reusability
-- Debugging
-
----
-
-# 🚀 Installation
-
-## 1. Clone the repository
-
-```bash
+``` bash
 git clone https://github.com/lakhanbarnwal/roamnest.git
-```
-
----
-
-## 2. Navigate to the project directory
-
-```bash
 cd roamnest
 ```
 
----
+### 2. Install dependencies
 
-## 3. Install dependencies
-
-```bash
+``` bash
 npm install
 ```
 
----
+### 3. Configure environment variables
 
-## 4. Configure environment variables
+Create a `.env` file in the project root. Use the variable names
+expected by the current application:
 
-Create:
+``` env
+ATLASURL=your_mongodb_atlas_connection_string
+SESSION_SECRET=your_long_random_session_secret
 
-```text
-.env
+CLOUD_NAME=your_cloudinary_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+
+MAP_BOX_TOKEN=your_mapbox_access_token
+GEMINI_API_KEY=your_gemini_api_key
 ```
 
-Add your:
+**Important:** The variable names must match those used in `app.js` and
+`cloudConfig.js`. Never commit real credentials or API secrets to
+GitHub. Keep `.env` in `.gitignore`.
 
-- MongoDB connection string
-- Session secret
-- Cloudinary credentials
-- Mapbox token
+### 4. Start the application
 
----
-
-## 5. Start the application
-
-Using Node.js:
-
-```bash
+``` bash
 node app.js
 ```
 
-Or using Nodemon:
+If a development script is configured in `package.json`, you can also
+use the relevant npm script, such as:
 
-```bash
-nodemon app.js
-```
-
-If a development script exists:
-
-```bash
+``` bash
 npm run dev
 ```
 
----
+### 5. Open the application
 
-## 6. Open the application
+The current `app.js` configuration uses port `3000`:
 
-Open:
-
-```text
-http://localhost:8080
+``` text
+http://localhost:3000
 ```
 
-in your browser.
+If you change the port or configure a `PORT` environment variable, use
+the port configured by your application.
 
----
+## 🔑 Environment Variable Reference
 
-# 🔃 Application Workflow
+  -----------------------------------------------------------------------
+  Variable                            Purpose
+  ----------------------------------- -----------------------------------
+  `ATLASURL`                          MongoDB Atlas connection string
 
-```text
-                 ┌─────────────────┐
-                 │      USER       │
-                 └────────┬────────┘
-                          │
-                          ↓
-                 ┌─────────────────┐
-                 │     EXPRESS     │
-                 │     ROUTES      │
-                 └────────┬────────┘
-                          │
-                          ↓
-                 ┌─────────────────┐
-                 │   MIDDLEWARE    │
-                 │                 │
-                 │ Authentication  │
-                 │ Authorization   │
-                 │ Validation      │
-                 └────────┬────────┘
-                          │
-                          ↓
-                 ┌─────────────────┐
-                 │ APPLICATION     │
-                 │     LOGIC       │
-                 └───────┬─────────┘
-                         │
-             ┌───────────┴────────────┐
-             ↓                        ↓
-       ┌──────────┐             ┌──────────┐
-       │ MongoDB  │             │Cloudinary│
-       └──────────┘             └──────────┘
-             │
-             ↓
-       ┌──────────┐
-       │   EJS    │
-       │  Views   │
-       └────┬─────┘
-            │
-            ↓
-          USER
-```
+  `SESSION_SECRET`                    Secret used by Express Session and
+                                      session-store configuration
 
----
+  `CLOUD_NAME`                        Cloudinary cloud name
 
-# 📸 Screenshots
+  `CLOUDINARY_API_KEY`                Cloudinary API key
 
-## Home Page
+  `CLOUDINARY_API_SECRET`             Cloudinary API secret
 
-Add your home page screenshot here.
+  `MAP_BOX_TOKEN`                     Mapbox access token for
+                                      geocoding/maps
 
-```markdown
-![Home Page](screenshots/home.png)
-```
+  `GEMINI_API_KEY`                    Google Gemini API key for chatbot
+                                      requests
+  -----------------------------------------------------------------------
 
-## Property Details
+Do not paste secret values into issues, screenshots, or public
+repositories. Configure production environment variables in the Render
+service dashboard as well.
 
-```markdown
-![Property Details](screenshots/property-details.png)
-```
+## 🚀 Deployment
 
-## Map
+RoamNest is configured for a hosted deployment on Render.
 
-```markdown
-![Map](screenshots/map.png)
-```
+Before deploying:
 
-## Login
+1.  Push the latest code to GitHub.
+2.  Set the build command to `npm install`.
+3.  Configure the start command to match `package.json` (for example,
+    `npm start` if a start script is defined, or `node app.js`).
+4.  Add all required environment variables in Render.
+5.  Verify MongoDB Atlas network access and credentials.
+6.  Verify Cloudinary, Mapbox, and Gemini credentials.
+7.  Test registration, login, listing CRUD, image uploads, maps,
+    reviews, and AI search on the deployed URL.
 
-```markdown
-![Login](screenshots/login.png)
-```
+Third-party API availability, quotas, model access, and hosting limits
+can affect individual features.
 
-## Sign Up
+## 🧪 Example AI Chatbot Workflow
 
-```markdown
-![Sign Up](screenshots/signup.png)
-```
+1.  A user enters a natural-language request in the chatbot.
+2.  The server sends the message to Gemini to extract supported search
+    filters.
+3.  The server builds a MongoDB query from those filters.
+4.  MongoDB returns matching registered listings.
+5.  The API returns the count and a limited set of listing details.
+6.  The chatbot renders the results, including available images and
+    property links.
 
----
+The chatbot should only report listing details returned by the database.
+If a search returns no results, check that the saved `location`,
+`country`, and `price` fields match the requested filters.
 
-# 🔮 Future Enhancements
+## 🔒 Security Notes
 
-Future versions of RoamNest may include:
+-   Keep API keys, database credentials, and session secrets in
+    environment variables.
+-   Never commit `.env` or other files containing secrets.
+-   Validate incoming form and API data on the server.
+-   Protect write operations with authentication and authorization
+    middleware.
+-   Check resource ownership before editing or deleting listings.
+-   Avoid exposing raw internal errors to end users in production.
+-   Review cookie settings and HTTPS configuration for production
+    deployment.
+-   Apply sensible request limits and monitor third-party API usage.
 
-- 💳 Online payment integration
-- 📅 Property booking system
-- ❤️ Wishlist / Favorites
-- 👤 User profile dashboard
-- 🏠 Host dashboard
-- 📧 Email notifications
-- 🔔 Real-time notifications
-- 🔍 Advanced property search
-- 📍 Location-based search
-- 📅 Property availability calendar
-- 🧾 Booking history
-- 🔐 Social authentication
-- 🛡️ Admin dashboard
-- ✅ Property verification
-- 🤖 AI-powered recommendations
-- 💬 Real-time messaging between host and guest
+## 🎓 Learning Outcomes
 
----
+RoamNest demonstrates practical work with:
 
-# 🎯 Learning Outcomes
+-   Full-stack web development using Node.js and Express.
+-   Server-rendered interfaces with EJS.
+-   MongoDB data modeling and Mongoose relationships.
+-   CRUD operations and REST-style routes.
+-   Authentication, authorization, sessions, and cookies.
+-   Cloud image uploads with Cloudinary.
+-   Geocoding and maps with Mapbox.
+-   AI-assisted search with the Gemini API.
+-   Form validation, middleware, and centralized error handling.
+-   Deployment configuration and environment variables.
 
-Building RoamNest provided practical experience with:
 
-- Full-stack web development
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
-- EJS
-- RESTful routing
-- CRUD operations
-- Authentication
-- Authorization
-- Sessions
-- Cookies
-- Passport.js
-- MongoDB relationships
-- Middleware
-- Cloudinary
-- Image uploads
-- Mapbox
-- Maps and geolocation
-- Joi validation
-- Error handling
-- Flash messages
-- Responsive web design
-- Git
-- GitHub
-- Environment variables
-- Production-oriented application architecture
+------------------------------------------------------------------------
 
----
-
-# 👨‍💻 Author
-
-## Lakhan Kumar Barnwal
-
-**B.Tech — Computer Science & Engineering (AI/ML)**
-
-GitHub:  
-https://github.com/lakhanbarnwal
-
-LinkedIn:  
-Add your LinkedIn profile URL here
-
-Email:  
-Add your professional email here
-
----
-
-# ⭐ Support
-
-If you like **RoamNest** or find this project useful, consider giving the repository a ⭐.
-
-Your support is appreciated!
-
----
-
-# 📄 License
-
-This project was developed for **educational and portfolio purposes**.
-
-You may add an open-source license such as the MIT License if you decide to distribute or allow reuse of the project.
-
----
-
+```{=html}
 <p align="center">
-  Made with ❤️ by <b>Lakhan Kumar Barnwal</b>
+```
+Made with ❤️ by `<b>`{=html}Lakhan Kumar Barnwal`</b>`{=html}
+`<br>`{=html} `<b>`{=html}RoamNest --- Discover. Explore.
+Stay.`</b>`{=html}
+```{=html}
 </p>
-
-<p align="center">
-  <b>RoamNest — Discover. Explore. Stay.</b>
-</p>
+```
