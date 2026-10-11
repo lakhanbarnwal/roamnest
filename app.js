@@ -11,17 +11,24 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo").default;
 const flash = require("connect-flash");
 
+const { GoogleGenAI } = require("@google/genai");
+
+const ai = new GoogleGenAI({
+  apiKey: process.env.GEMINI_API_KEY,
+});
+express;
+
 main()
   .then(() => console.log("Connected!"))
   .catch((err) => console.log(err));
 
- 
 async function main() {
   mongoose.connect(process.env.ATLASURL);
 }
 
 //pre set
 
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.set("views", path.join((__dirname, "views")));
@@ -57,7 +64,7 @@ const upload = multer({ storage });
 
 const store = MongoStore.create({
   mongoUrl: process.env.ATLASURL,
-  crypto:{
+  crypto: {
     secret: process.env.SESSION_SECRET,
   },
   touchAfter: 24 * 60 * 60,
@@ -70,14 +77,12 @@ app.use(
     resave: false,
     saveUninitialized: true,
     cookie: {
-      expires: Date.now + 3 * 24 * 60 * 60 * 1000,
+      expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
       maxAge: 259200000,
       httpOnly: true,
     },
   }),
 );
-
-
 
 app.use(flash());
 
@@ -100,9 +105,8 @@ app.use((req, res, next) => {
 });
 
 app.get("/", (req, res) => {
-    res.redirect("/listings");
+  res.redirect("/listings");
 });
-
 
 const validateReview = (req, res, next) => {
   let { error } = reviewSchema.validate(req.body);
@@ -183,32 +187,51 @@ app.post(
   upload.single("image"),
   wrapAsync(async (req, res, next) => {
     try {
-      let { title, description, price, location, country } = req.body;
-      const path = req.file.path;
-      const filename = req.file.filename;
+      console.log("Uploaded file:", req.file);
+      console.log("Form body:", req.body);
+
+      if (!req.file) {
+        req.flash("error", "Please select an image.");
+        return res.redirect("/listings/new");
+      }
+
+      const { title, description, price, location, country } = req.body;
+
       const newListing = new Listing({
         title,
         description,
         price,
         location,
         country,
+        owner: req.user._id,
+        image: {
+          url: req.file.secure_url,
+          filename: req.file.public_id,
+        },
       });
 
-      let resonse = await geocodingClient
+      const response = await geocodingClient
         .forwardGeocode({
           query: location,
           limit: 1,
         })
         .send();
-      newListing.geometry = resonse.body.features[0].geometry;
-      await newListing.save();
 
-      console.log(newListing);
+      if (!response.body.features.length) {
+        req.flash("error", "Location not found.");
+        return res.redirect("/listings/new");
+      }
 
-      newListing.owner = req.user._id;
-      newListing.image = { url: path, filename };
+      newListing.geometry = response.body.features[0].geometry;
+
       await newListing.save();
-      req.flash("success", "listing created successfully");
+      console.log("Saved image:", newListing.image);
+      console.log(
+        "Saved listing:",
+        await Listing.findById(newListing._id).lean(),
+      );
+
+      req.flash("success", "Listing created successfully");
       res.redirect("/listings");
     } catch (err) {
       next(err);
@@ -298,6 +321,135 @@ app.get("/logout", (req, res, next) => {
     req.flash("success", "log out successfully ");
     res.redirect("/listings");
   });
+});
+
+async function generateWithRetry(request, retries = 2) {
+  for (let attempt = 0; ; attempt++) {
+    try {
+      return await ai.models.generateContent(request);
+    } catch (error) {
+      if (error.status !== 503 || attempt >= retries) {
+        throw error;
+      }
+
+      const delay = 1000 * 2 ** attempt;
+      console.log(`Gemini busy. Retrying in ${delay / 1000}s...`);
+
+      await new Promise((resolve) => setTimeout(resolve, delay));
+    }
+  }
+}
+
+// AI search route
+app.post("/api/ai/chat", async (req, res) => {
+  try {
+    const { message } = req.body;
+
+    if (typeof message !== "string" || !message.trim()) {
+      return res.status(400).json({
+        success: false,
+        message: "Please enter a question.",
+      });
+    }
+
+    if (message.length > 500) {
+      return res.status(400).json({
+        success: false,
+        message: "Please keep your question under 500 characters.",
+      });
+    }
+
+    const result = await generateWithRetry({
+      model: "gemini-3.8-flash",
+      contents: message,
+      config: {
+        systemInstruction: `
+You are RoamNest's property search assistant.
+Extract search filters from the user's question.
+Return JSON only with:
+city: string or null,
+country: string or null,
+maxPrice: number or null.
+
+Use null for unspecified filters.
+If the user asks about properties in a place,
+put the place in city unless a country is explicit.
+Never invent hotel counts or property details.
+`,
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: "OBJECT",
+          properties: {
+            city: { type: ["STRING", "NULL"] },
+            country: { type: ["STRING", "NULL"] },
+            maxPrice: { type: ["NUMBER", "NULL"] },
+          },
+          required: ["city", "country", "maxPrice"],
+        },
+      },
+    });
+
+    const filters = JSON.parse(result.text);
+    console.log("AI filters:", filters);
+
+    const escapeRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+    const query = {};
+    if (filters.city) {
+      query.location = {
+        $regex: escapeRegex(filters.city),
+        $options: "i",
+      };
+    }
+
+    if (filters.country) {
+      query.country = {
+        $regex: escapeRegex(filters.country),
+        $options: "i",
+      };
+    }
+
+    if (
+      filters.maxPrice !== null &&
+      Number.isFinite(filters.maxPrice) &&
+      filters.maxPrice >= 0
+    ) {
+      query.price = { $lte: filters.maxPrice };
+    }
+    const [count, listings] = await Promise.all([
+      Listing.countDocuments(query),
+      Listing.find(query)
+        .select("title price location country image")
+        .limit(10)
+        .lean(),
+    ]);
+    console.log("MongoDB query:", JSON.stringify(query));
+
+    res.json({
+      success: true,
+      answer: `RoamNest par ${count} registered listings mili hain.`,
+      totalRegisteredListings: count,
+      listings: listings.map((item) => ({
+        id: item._id,
+        title: item.title,
+        price: item.price,
+        location: item.location,
+        country: item.country,
+        image: item.image?.url || null,
+        url: `/listings/${item._id}`,
+      })),
+    });
+  } catch (error) {
+    console.error("Gemini AI error:", error);
+
+    res.status(500).json({
+      success: false,
+      message:
+        error.status === 503
+          ? "AI is temporarily busy. Please try again shortly."
+          : "AI search failed. Please try again.",
+    });
+  }
 });
 
 //reviews route

@@ -192,7 +192,7 @@
 
             .tax-switch .form-check-label {
                 font-size: 1rem;
-                font-weight: 500;
+                font-weight: 500; 
                 color: #222;
             }
 
@@ -361,7 +361,7 @@
                 border-top: 1px solid #f1f1f1;
             }
 
-
+            
 
             .tax-switch .form-check-label {
 
@@ -430,10 +430,10 @@
 
                 padding-left: 0.8rem;
                 padding-right: 0.8rem;
-
-
+               
+                
             }
-
+          
 
             .tax-switch .form-check-label {
 
@@ -451,14 +451,13 @@
                 height: 200px;
             }
         }
-
         .tax-switch .form-check {
 
-            padding-left: 2.5em;
-            border: 2px solid black !important;
-            padding: 1rem 1.5rem !important;
-            border-radius: 2.5rem !important;
-        }
+                padding-left: 2.5em;
+                border: 2px solid black !important;
+                padding: 1rem 1.5rem !important;
+                border-radius: 2.5rem !important;
+            }
     </style>
 
 
@@ -710,13 +709,7 @@
             const taxInfo =
                 document.getElementsByClassName("tax-info");
 
-            document.addEventListener("DOMContentLoaded", () => {
-                const taxSwitch = document.querySelector(".tax-info");
 
-                if (taxSwitch) {
-                    taxSwitch.checked = false;
-                }
-            });
             for (let info of taxInfo) {
 
                 if (this.checked) {
